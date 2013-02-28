@@ -3,7 +3,7 @@
 use Device::SerialPort;
 
 $LOGDIR  = "/vape";           # path to data file
-$LOGFILE = "yosvape.log";    # file name to output to
+$LOGFILE = "yosvape.log";     # file name to output to
 $PORT    = "/dev/ttyACM0";    # port to watch
 
 #
