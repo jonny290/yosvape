@@ -34,7 +34,7 @@ if ($statusline){
 Irssi::signal_add 'message public', 'vape_message_public';
 sub vape_message_public {
      my ($server, $msg, $nick, $nick_addr, $target) = @_;
-     return unless ($target =~ m/#(yospos|gaybos)/);  # only operate in these channels
+     return unless ($target =~ m/#yospos/);  # only operate in these channels
 			if ($nick eq "jonny290" && $msg =~ /^!preheat/) {
 				system('echo P > /vape/futuremode');
                         	$server->command("msg $target Please wait, \cC5$nick\cO. \cC5YOSVape\cO is preheating." ) ;
