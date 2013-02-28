@@ -1,4 +1,3 @@
 yosvape
 =======
-
-Yosvape software
+Software and code involved in the yosvape.
