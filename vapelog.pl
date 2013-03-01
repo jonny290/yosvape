@@ -4,16 +4,35 @@
 #
 # Designed to be kept alive by yosvape.sh.
 #
-
+use strict;
+use warnings;
 use Device::SerialPort;
+use Config::General;
+use Getopt::Long::Descriptive;
+ 
+our $VERSION = '0.000_420';
 
-$LOGDIR  = "/vape";           # path to data file
-$LOGFILE = "yosvape.log";     # file name to output to
-$PORT    = "/dev/ttyACM0";    # port to watch
+
+# Use Getopt::Long::Descriptive to override default config
+my ($opt, $usage) = describe_options(
+    "$0 %o <some-arg>",
+    [ 'config|c:s',  "load config file",                { default => 'yosvape.conf' }],
+    [ 'logdir|d:i',  "the port to connect to",          { default => '/vape'        }],
+    [ 'logfile|f:s', "the nick for yosvape to use",     { default => 'yosvape.log'  }],
+    [ 'port|p:s',    "the password for yosvape's nick", { default => '/dev/ttyACM0' }],
+    [],
+    [ 'help',        "print usage message and exit" ],
+);
+print($usage->text), exit if $opt->help;
+
+my $conf_obj = Config::General->new( $opt->config );
+my %conf     = $conf_obj->getall;
+
+my $LOGFILE = $conf{vapelog}{logdir} . '/' . $conf{vapelog}{logfile};
 
 # Serial Settings
 
-$ob = Device::SerialPort->new($PORT) || die "Can't Open $PORT: $!";
+my $ob = Device::SerialPort->new($opt->port) || die "Can't Open " . $opt->port . ": $!";
 $ob->baudrate(9600)    || die "failed setting baudrate";
 $ob->parity("none")    || die "failed setting parity";
 $ob->databits(8)       || die "failed setting databits";
@@ -21,7 +40,8 @@ $ob->handshake("none") || die "failed setting handshake";
 $ob->dtr_active(0)     || die "failed setting dtr_active";
 $ob->write_settings    || die "no settings";
 
-open( LOG, ">>${LOGDIR}/${LOGFILE}" )  || die "can't open smdr file $LOGDIR/$LOGFILE for append: $SUB $!\n";
+
+open( my $logfile, '>>', $LOGFILE )  || die "can't open smdr file $LOGFILE for append: $!\n";
 $| = 1;    # set nonbufferd mode
 
 # Loop forver, logging data to the log file
@@ -31,7 +51,7 @@ my $line;
 while (1) {    # dont stop till u get enough
     $line = $ob->lookfor;   #Returns undef if we havent gotten an are_match - terminated string, or the string if we have
     if ($line) {
-        print LOG "$line\n";
+        print {$logfile} $line;
         my ( $uptime, $mode, $pwm, $temp, $setpoint ) = split( /,/, $line );
         my $currentmode = $mode;
         my $futuremode  = `cat /vape/futuremode`;
