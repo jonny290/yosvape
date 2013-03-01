@@ -1,10 +1,4 @@
-  # This is a common method of declaring package scoped variables before the
-  # 'our' keyword was introduced.  You should pick one form or the other, but
-  # generally speaking, the our $var is preferred in new code.
-
-  #use vars qw($VERSION %IRSSI);
-
-  use Irssi;
+ use Irssi;
 
   our $VERSION = '1.04';
   our %IRSSI = (
