@@ -13,26 +13,31 @@ use Getopt::Long::Descriptive;
  
 our $VERSION = '0.000_420';
 
+my $conf_obj = Config::General->new( $opt->config );
+my %conf     = $conf_obj->getall;
 
 # Use Getopt::Long::Descriptive to override default config
 my ($opt, $usage) = describe_options(
     "$0 %o <some-arg>",
-    [ 'config|c:s',  "load config file",                { default => 'yosvape.conf' }],
-    [ 'logdir|d:i',  "the port to connect to",          { default => '/vape'        }],
-    [ 'logfile|f:s', "the nick for yosvape to use",     { default => 'yosvape.log'  }],
-    [ 'port|p:s',    "the password for yosvape's nick", { default => '/dev/ttyACM0' }],
+    [ 'config|c:s',  "load config file",                
+        { default => $conf{vapelog}{logdir  } || 'yosvape.conf' }
+    ],
+    [ 'logdir|d:i',  "the port to connect to",          
+        { default => $conf{vapelog}{logdir  } || '/vape'        }
+    ],
+    [ 'logfile|f:s', "the nick for yosvape to use",     
+        { default => $conf{vapelog}{logfile } || 'yosvape.log'  }
+    ],
+    [ 'port|p:s',    "the port for some shit",
+        { default => $conf{vapelog}{port    } || '/dev/ttyACM0' }],
     [],
     [ 'help',        "print usage message and exit" ],
 );
 print($usage->text), exit if $opt->help;
 
-my $conf_obj = Config::General->new( $opt->config );
-my %conf     = $conf_obj->getall;
-
-my $LOGFILE = $conf{vapelog}{logdir} . '/' . $conf{vapelog}{logfile};
+my $LOGFILE = $opt->logdir . '/' . $opt->logfile;
 
 # Serial Settings
-
 my $ob = Device::SerialPort->new($opt->port) || die "Can't Open " . $opt->port . ": $!";
 $ob->baudrate(9600)    || die "failed setting baudrate";
 $ob->parity("none")    || die "failed setting parity";
