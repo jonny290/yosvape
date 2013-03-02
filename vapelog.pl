@@ -65,3 +65,5 @@ while (1) {    # dont stop till u get enough
     select( undef, undef, undef, 0.5 ); #ancient chinese secret for sub-1s naps without time::hires or shelling out
 }
 undef $ob;
+
+"420";

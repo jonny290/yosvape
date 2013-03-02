@@ -26,9 +26,6 @@ return unless $statusline;
 ($timestamp,$currmode,$pwm,$temp,$setpoint) = split(/,/,$statusline);
 
 Irssi::signal_add 'message public', 'vape_message_public';
-Irssi::timeout_add(10000,'vapecheck',undef);
-
-1;
 
 sub vape_message_public {
     my ($server, $msg, $nick, $nick_addr, $target) = @_;
@@ -95,3 +92,6 @@ sub vapestatus {
     }
 }
 
+Irssi::timeout_add(10000,'vapecheck',undef);
+
+"Smoke weed everyday - Snoop Dogg";
