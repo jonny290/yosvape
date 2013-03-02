@@ -62,6 +62,7 @@ while (1) {    # dont stop till u get enough
         if ( $futuremode && $futuremode ne $mode ) {
             $ob->write($futuremode) if ( $futuremode =~ /\w/ );
             print "MODE CHANGE TO $futuremode\n";
+            make_evidence($futuremode);
             unlink('/vape/futuremode');
         }
     }
@@ -70,3 +71,12 @@ while (1) {    # dont stop till u get enough
 undef $ob;
 
 "420" || 1;
+
+sub make_evidence {
+    my $evidence = shift;
+
+    open( my $usagelog, '>>', $conf{usagelog} ); 
+    my $now = DateTime->now;
+    print {$usagelog} 'YOSVAPE submits that on ' . $now->dmy . ' at ' . $now->hms . ' user JONNY290 smoked weed: ' . $futuremode . "\n";
+    close $usagelog;
+}
