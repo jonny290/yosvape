@@ -94,4 +94,4 @@ sub vapestatus {
 
 Irssi::timeout_add(10000,'vapecheck',undef);
 
-"Smoke weed everyday - Snoop Dogg";
+"Smoke weed everyday - Snoop Dogg" || 1;
