@@ -17,8 +17,8 @@ our $VERSION = '0.000_420';
 my ($opt, $usage) = describe_options(
     "$0 %o <some-arg>",
     [   'config|c:s',  "load config file",            { default => 'yosvape.conf' }],
-    [   'logdir|d:i',  "the port to connect to",      { default => '/vape'        }],
-    [   'logfile|f:s', "the nick for yosvape to use", { default => 'yosvape.log'  }],
+    [   'logdir|d:i',  "the directory to logfile",    { default => '/vape'        }],
+    [   'logfile|f:s', "the file for yosvape to use", { default => 'yosvape.log'  }],
     [   'port|p:s',    "the port for some shit",      { default => '/dev/ttyACM0' }],
     [],
     [   'help',        "print usage message and exit" ],
