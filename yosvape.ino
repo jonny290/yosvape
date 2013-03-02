@@ -269,7 +269,7 @@ void buttoncheck()
     }
     last_red_r = current_red_r;
     int current_red_l = digitalRead(RED_L);
-    if (current_red_l == 0 && current_red_l != last_red_l) //right red button has come down since we last checked
+    if (current_red_l == 0 && current_red_l != last_red_l) //left red button has come down since we last checked
     {
         delay(10);
         if (digitalRead(RED_L) == current_red_l)
@@ -289,7 +289,7 @@ void buttoncheck()
     }
     last_blk_r = current_blk_r;
     int current_blk_l = digitalRead(BLK_L);
-    if (current_blk_l == 0 && current_blk_l != last_blk_l) //right blk button has come down since we last checked
+    if (current_blk_l == 0 && current_blk_l != last_blk_l) //left blk button has come down since we last checked
     {
         delay(10);
         if (digitalRead(BLK_L) == current_blk_l)
@@ -372,16 +372,16 @@ void setfan()
         }
         break;
     case GET_BLAZED:
-        if (digitalRead(SW_LO) == 1) //right red button has come down since we last checked
+        if (digitalRead(SW_LO) == 1) //switch is on low
         {
             fanpwm = fan_low;
         }
 
-        else if (digitalRead(SW_HI) == 1) //right red button has come down since we last checked
+        else if (digitalRead(SW_HI) == 1) //switch is on high
         {
             fanpwm = fan_high;
         }
-        else
+        else                            // switch is in middle
         {
             if (outtemp > 400)
             {
