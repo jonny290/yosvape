@@ -12,7 +12,7 @@
 package yosvape;
 use Dancer ':syntax';
 
-our $VERSION = '0.1';
+our $VERSION = '0.420';
 
 get '/' => sub {
     my %modehash = (
