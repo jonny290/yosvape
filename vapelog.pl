@@ -4,6 +4,7 @@
 #
 # Designed to be kept alive by yosvape.sh.
 #
+
 use strict;
 use warnings;
 use Device::SerialPort;
@@ -49,8 +50,7 @@ $| = 1;    # set nonbufferd mode
 $ob->are_match("\n"); #This sets the characters we consider a record separator, basically
 my $line;
 while (1) {    # dont stop till u get enough
-    $line = $ob->lookfor;   #Returns undef if we havent gotten an are_match - terminated string, or the string if we have
-    if ($line) {
+    if ($line = $ob->lookfor) {   #Returns undef if we havent gotten an are_match - terminated string, or the string if we have
         print {$logfile} $line;
         my ( $uptime, $mode, $pwm, $temp, $setpoint ) = split( /,/, $line );
         my $currentmode = $mode;
